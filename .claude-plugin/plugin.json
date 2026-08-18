@@ -1,0 +1,20 @@
+{
+  "name": "icm-architect",
+  "version": "0.1.0",
+  "description": "Design any process, idea, problem, or body of knowledge into an ICM (Interpretable Context Methodology) workspace — folder structure as agent architecture — or restructure an existing folder, repo, or vault into one.",
+  "author": {
+    "name": "Via Del Web",
+    "url": "https://github.com/salemaziel"
+  },
+  "homepage": "https://github.com/salemaziel/icm-architect",
+  "repository": "https://github.com/salemaziel/icm-architect",
+  "license": "MIT",
+  "keywords": [
+    "icm",
+    "workspace-design",
+    "context-engineering",
+    "agent-architecture",
+    "skills",
+    "architecture"
+  ]
+}

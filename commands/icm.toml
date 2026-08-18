@@ -1,0 +1,10 @@
+description = "Design or restructure a workspace using Interpretable Context Methodology (ICM)."
+prompt = '''
+Design an ICM workspace or audit/restructure an existing workspace using Interpretable Context Methodology (ICM).
+
+Input: {{args}}
+
+Follow the instructions in `skills/icm-architect/SKILL.md`:
+1. **Build Mode**: If starting from a described workflow or concept, interview the process, extract stages and human gates, select one of the six forms (Pipeline, Umbrella, Record library, Knowledge bundle, Context map, System map), scaffold the minimal directory structure using templates from `skills/icm-architect/assets/templates/`, write explicit contracts (`CLAUDE.md`, `CONTEXT.md`), and run the walk test.
+2. **Restructure Mode**: If auditing an existing workspace, take an inventory without moving files, classify files into the 5 roles (Catalog, Contract, Factory, Product, Dead), propose a migration map for approval, execute the migration, and validate with the walk test.
+'''

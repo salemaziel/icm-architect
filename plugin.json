@@ -1,0 +1,10 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "icm-architect",
+  "version": "0.1.0",
+  "description": "Design any process, idea, problem, or body of knowledge into an ICM (Interpretable Context Methodology) workspace — folder structure as agent architecture — or restructure an existing folder, repo, or vault into one.",
+  "author": {
+    "name": "Via Del Web",
+    "url": "https://github.com/salemaziel"
+  }
+}

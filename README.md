@@ -22,7 +22,42 @@ Every result is validated with the **walk test**: an agent with no memory must o
 
 ## Install
 
-**Claude Code:** copy this folder to `~/.claude/skills/icm-architect/` (or `.claude/skills/icm-architect/` inside a project), then ask Claude to "ICM this" / "structure this for agents" / "build me a workspace for X".
+### VDW Marketplace (Recommended)
+Register the VDW marketplace once, then install:
+
+```bash
+# Claude Code
+claude plugin marketplace add https://github.com/salemaziel/vdw-claude-plugins
+claude plugin install icm-architect@vdw
+
+# Codex CLI
+codex plugin marketplace add https://github.com/salemaziel/vdw-claude-plugins
+codex plugin add icm-architect@vdw
+
+# Gemini CLI / Antigravity CLI
+gemini extension registry add https://github.com/salemaziel/vdw-claude-plugins
+gemini extension install vdw-claude-plugins/icm-architect
+```
+
+### Direct Plugin / Skill Install
+
+**Claude Code:**
+```bash
+claude plugin install https://github.com/salemaziel/icm-architect
+# Or copy to ~/.claude/skills/icm-architect/
+```
+
+**Codex CLI:**
+```bash
+codex plugin add https://github.com/salemaziel/icm-architect.git
+```
+
+**Gemini CLI / Antigravity CLI:**
+```bash
+gemini extension install https://github.com/salemaziel/icm-architect
+# Or enable via agyplugins:
+# agyplugins enable icm-architect
+```
 
 **Claude apps:** upload `icm-architect.skill` (build it with the skill-creator packager, or zip this folder's contents) via Settings → Capabilities.
 
@@ -30,13 +65,31 @@ Every result is validated with the **walk test**: an agent with no memory must o
 
 ```
 icm-architect/
-├─ SKILL.md              the method: invariants, build mode, restructure mode, walk test
-├─ references/
-│  ├─ core.md            five principles, five-layer hierarchy, naming, token discipline
-│  ├─ forms.md           the six forms in depth: skeletons, moves, failure modes
-│  └─ system-map.md      audit pipeline for the System map form
-└─ assets/templates/     copyable starters: CLAUDE.md, CONTEXT.md, stage contract,
-                         node card, object/process cards, schema, questionnaire
+├── .claude-plugin/
+│   ├── marketplace.json     # Claude marketplace descriptor
+│   └── plugin.json          # Claude Code plugin manifest
+├── .codex-plugin/
+│   └── plugin.json          # Codex CLI plugin manifest
+├── assets/templates/        # Copyable starters: CLAUDE.md, CONTEXT.md, stage contracts, etc.
+├── commands/
+│   ├── icm.md               # Claude Code slash command (/icm)
+│   └── icm.toml             # Gemini / Antigravity CLI custom command (/icm)
+├── references/
+│   ├── core.md              # Five principles, five-layer hierarchy, naming, token discipline
+│   ├── forms.md             # The six forms in depth: skeletons, moves, failure modes
+│   └── system-map.md        # Audit pipeline for the System map form
+├── skills/
+│   └── icm-architect/       # Multi-platform skill bundle
+│       ├── SKILL.md
+│       ├── assets/
+│       └── references/
+├── CONTEXT.md               # Workspace context
+├── GEMINI.md                # Gemini / Antigravity extension context
+├── LICENSE
+├── README.md
+├── SKILL.md
+├── gemini-extension.json    # Gemini CLI extension manifest
+└── plugin.json              # Antigravity CLI plugin manifest
 ```
 
 MIT licensed, like the protocol it serves.
