@@ -1,36 +1,29 @@
 ---
 name: icm-map
-description: Create or query a System Map (objects, processes, change-impact) for a codebase or vault.
+description: Create or query a System map (objects, processes, change impact) for a codebase or vault.
 ---
 
-Create or query a System Map using Interpretable Context Methodology (ICM).
+Create or query an ICM System map.
+
+Use the `icm-architect` skill; load it if it isn't loaded. Paths below are relative to the skill's folder, except paths in the workspace being worked on.
 
 Input: $ARGUMENTS
 
-Follow the System Map instructions in `skills/icm-architect/references/system-map.md` and `skills/icm-architect/SKILL.md`:
+Read `references/system-map.md`; its audit pipeline replaces the Build steps in `SKILL.md`.
 
-### Mode A: Build or Update System Map
-If the input is a repository, folder, or empty (current workspace):
-1. **Inventory**: Inspect codebase files, models, services, and core types. Do not slurp implementation code.
-2. **Scaffold `map/` Structure**:
-   - `map/CLAUDE.md`, `map/HERMES.md`, or `map/AGENTS.md` (map catalog routing).
-   - `map/CONTEXT.md` (universes, clusters, naming conventions).
-   - `map/_meta/schema.md` and `map/_templates/` (`object.md`, `process.md`).
-   - `map/objects/` (record library of nouns/entities).
-   - `map/processes/` (movements/runtime workflows).
-   - `map/effects/CONTEXT.md` (change-impact index).
-3. **Write Object Cards**:
-   - One card per core entity using `skills/icm-architect/assets/templates/object.md`.
-   - Include exact citations (`path:line`), relations (`owns`, `joins`, `looks-like-but-is-not`), and **Hits / Does not hit** impact lists.
-4. **Write Process Cards**:
-   - Runtime flows citing real entrypoints and sequences.
-5. **Change-Impact Index (`effects/CONTEXT.md`)**:
-   - Index: “if you change X, open these cards.”
-   - Walk it backwards: identify what outside configs/jobs point in.
-6. **Walk Test**: Validate cold-agent navigation and token budget.
+### Build or update a map
+If the input is a repository, a folder, or empty (the current workspace):
+Work in slices and stop after each one: a person or a cold walk reads the output before the next slice starts. Never move the subject's files.
+1. **Inventory.** List the tree; classify each area; infer the nouns and the verbs; mark each area's universe (live, leftover, ghost). Do not read implementation code wholesale. Propose the tree and clusters, and get approval.
+2. **Catalog.** Scaffold `map/` beside the existing orientation docs, never inside `src/`: `map/AGENTS.md` (the map's entry file), `map/CONTEXT.md`, `map/_meta/schema.md`, `map/_templates/` (`object.md`, `process.md`), `map/_tools/` (`index.py`, `links.py` from `scripts/`), `map/objects/<cluster>/` with a stub card (`status: stub`) for every noun you will not fill yet. Run `python -I _tools/index.py objects/<cluster>` for each cluster. Add one routing row to the subject's own entry file. Add `processes/` and `effects/` only when they have content.
+3. **Nouns.** Object cards from `_templates/object.md`: citations as `path:line`, relations, and **Hits / Does not hit** (first-order only). `status: verified` only with a date, a branch or commit, and citations. Regenerate the cluster's `_index.md` after each batch.
+4. **Verbs.** Process cards from `_templates/process.md`, for movements that actually run, citing entrypoints.
+5. **Change-impact index.** `effects/CONTEXT.md`: "if you change X, open these cards". Then walk it backwards: ask the owner what outside the tree points in (configs, jobs, agents), and record each on the card it lands on.
+6. **Re-verify** the load-bearing claims against source, especially Hits / Does not hit.
+7. **Run the walk test** and the System map checks in `references/system-map.md`.
 
-### Mode B: Change-Impact Query
-If the input asks about modifying a specific file, model, or component (e.g. `impact <target>` or `what hits <target>`):
-1. Open `map/effects/CONTEXT.md` and the target's object card in `map/objects/`.
-2. Follow the card's **Hits** and **Does not hit** sections and citations.
-3. Report the exact impact waterfall, risks, and surfaces that must be checked, without reading the entire repository.
+### Answer a change-impact question
+If the input asks what a change would hit (`impact <target>`, `what hits <target>`):
+1. Open `map/effects/CONTEXT.md` and the target's card under `map/objects/`.
+2. Follow its **Hits** and **Does not hit** sections and citations.
+3. Report what moves, the risks, and the surfaces to check, without reading the whole repository. If the map has no card for the target, say so.

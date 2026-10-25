@@ -1,6 +1,6 @@
 {
   "name": "icm-architect",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Design any process, idea, problem, or body of knowledge into an ICM (Interpretable Context Methodology) workspace — folder structure as agent architecture — or restructure an existing folder, repo, or vault into one.",
   "contextFileName": "GEMINI.md"
 }

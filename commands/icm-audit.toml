@@ -1,36 +1,17 @@
-description = "Audit an existing folder/repo, check reference integrity, and generate an approved ICM restructuring plan."
+description = "Audit an existing folder or repo and prepare an approved ICM restructuring plan."
 prompt = '''
-Audit an existing directory and prepare a safe restructuring plan using Interpretable Context Methodology (ICM).
+Audit an existing folder, repo or vault and restructure it into an ICM, safely.
+
+Use the `icm-architect` skill; load it if it isn't loaded. Paths below are relative to the skill's folder, except paths in the workspace being worked on.
 
 Input: {{args}}
 
-Follow the Restructure Mode instructions in `skills/icm-architect/SKILL.md` and `skills/icm-architect/references/reference-integrity.md`:
-
-1. **Non-Destructive Inventory**:
-   - Scan the target tree using file listing tools.
-   - For each area note: purpose, last touch, and existing references.
-   - Do NOT move or delete any files in this phase.
-2. **Identify Hidden Form**:
-   - Determine the repeating unit and how work enters and exits.
-   - Choose the target form (Pipeline, Umbrella, Record library, Knowledge bundle, Context map, System map).
-3. **Classify Every File (5 Roles)**:
-   - **Catalog**: Routing/identity files (`HERMES.md`, `CLAUDE.md`, `AGENTS.md`, root `CONTEXT.md`).
-   - **Contract**: Step instructions and boundaries (`stage-CONTEXT.md`).
-   - **Factory**: Stable reference material, rules, schemas (`_shared/`, `references/`).
-   - **Product**: Run-specific deliverables (`output/`, record folders).
-   - **Dead**: Stale or superseded files (propose for `_archive/`). A file is Dead only after reference integrity confirms no dependencies.
-4. **Reference Integrity Safety Gate**:
-   - Audit in-vault references, sibling-path (`../`) links that regrouping would break, and symlinks.
-   - Check external consumers (configs, deploy scripts, cron, issue trackers) via the human gate.
-   - Check case-folded destination collisions (e.g., `CLAUDE.md` → `CONTEXT.md` on case-insensitive filesystems).
-5. **Propose Migration Map**:
-   - Present a clear table: `Old Path → New Path → Role → Referrers Found`.
-   - Wait for human approval before moving anything.
-6. **Execute Migration (Copy-Verify-Remove)**:
-   - Copy files to new destinations.
-   - Verify parity (file count and content hashes).
-   - Remove originals only after verification passes, leaving pointers where external references existed.
-   - Write missing contracts and entry routing files.
-7. **Run the Walk Test**:
-   - Verify cold-agent navigation and confirm all pre-existing references still resolve.
+Follow Restructure mode in `SKILL.md`:
+1. **Inventory before touching.** List the tree; for each area note what it is, when it was last touched, and what refers to it. Move and delete nothing in this pass.
+2. **Find the hidden form.** The repeating unit, where work enters and leaves. Name the form from `references/forms.md` (Pipeline, Record library, Knowledge bundle, Context map, System map) or the recipe over the three primitives.
+3. **Classify every file**: Catalog (`AGENTS.md`, pointer files, index files), Contract (`CONTEXT.md`), Factory (`_shared/`), Product (stage `output/`, record folders), Dead (propose `_archive/`; only after step 4 finds nothing that depends on it).
+4. **Find what points at each file.** Links inside the workspace, sibling `../` paths, symlinks, and consumers outside it: other repos, configs, scheduled jobs, agent configs. Ask the owner about the outside ones. Check every destination for a case-folded collision (`context.md` vs `CONTEXT.md`).
+5. **Propose the migration map**: old path, new path, role, referrers found, and every case-fold collision. Wait for approval.
+6. **Migrate: copy, verify, then remove.** Confirm the tree is tracked or backed up; copy; verify file count and content hash; remove the original only after parity passes, leaving a link where anything referred to it. Write `AGENTS.md`, pointer files and contracts, and dedupe toward one home per fact. If the structure will be reused, keep the blank template apart from this filled-in deployment.
+7. **Run the walk test**, including `python -I _tools/links.py` if the workspace has it, and confirm every reference that existed before the move still resolves.
 '''

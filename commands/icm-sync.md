@@ -1,19 +1,17 @@
 ---
 name: icm-sync
-description: Synchronize ICM routing tables and contracts with disk state to eliminate catalog drift.
+description: Reconcile an ICM's catalogs with the folders on disk after folders were added, moved or renumbered.
 ---
 
-Synchronize an ICM workspace's routing tables and contracts with the current filesystem layout.
+Reconcile an ICM workspace's catalogs with what is on disk.
+
+Use the `icm-architect` skill; load it if it isn't loaded. Paths below are relative to the skill's folder, except paths in the workspace being worked on.
 
 Input: $ARGUMENTS
 
-Follow the Sync Mode instructions in `skills/icm-architect/SKILL.md`:
-1. **Scan Catalog vs. Disk**: Read root entry files (`HERMES.md`, `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`) and root `CONTEXT.md`. Inventory all actual stage directories (`stages/*` or `NN_*`), record libraries, and shared folders.
-2. **Detect Drift & Contract Gaps**:
-   - Uncataloged stages (directories present on disk but missing in the routing table).
-   - Dead catalog pointers (table rows pointing to deleted/renamed folders).
-   - Contract gaps (stage folders missing an explicit `CONTEXT.md`).
-   - Pipeline progress (derive current completion status by checking artifacts in each stage's `output/`).
-3. **Reconcile Tables**: Show proposed routing table diffs. Update the routing tables in entry files and root `CONTEXT.md` cleanly, preserving user notes, identities, and custom rules.
-4. **Scaffold Missing Contracts**: If stage directories lack a `CONTEXT.md`, offer to scaffold minimal contracts using `skills/icm-architect/assets/templates/stage-CONTEXT.md`.
-5. **Walk Test**: Verify updated routing tables resolve and token budgets hold (2k-8k tokens per stage).
+Follow Sync mode in `SKILL.md`:
+1. **Read the catalogs, then the disk.** `AGENTS.md` and any pointer files beside it, the root `CONTEXT.md`, each hub `CONTEXT.md`; then list the stage folders (`NN_*`), shelves, `_shared/`, `_templates/`, `_tools/`.
+2. **List the drift.** Uncataloged folders; dead pointers (run `python -I _tools/links.py` if the workspace has it); working folders with no `CONTEXT.md`; pointer files holding content instead of pointing at `AGENTS.md`; generated `_index.md` files that no longer match their folder; each stage's status from its `output/` and any `check.md`.
+3. **Propose the catalog diff**: rows to add, change and remove. Routing rows only; leave identity text, rules and the owner's notes alone. Wait for approval.
+4. **Apply it.** Rerun `python -I _tools/index.py <folder>` for each stale `_index.md`; never edit one by hand. Offer a contract from `assets/templates/stage-CONTEXT.md` for each folder missing one; write none without approval.
+5. **Run the walk test.**

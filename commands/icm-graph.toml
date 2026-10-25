@@ -1,21 +1,13 @@
-description = "Generate a Mermaid.js visual graph of the workspace pipeline or system map."
+description = "Draw an ICM workspace (or several) as a graph with the skill's links.py and viz.py scripts."
 prompt = '''
-Crawl the workspace contracts and object cards to generate a Mermaid.js visual graph.
+Draw an ICM workspace as an interactive graph.
+
+Use the `icm-architect` skill; load it if it isn't loaded. Paths below are relative to the skill's folder, except paths in the workspace being worked on.
 
 Input: {{args}}
 
-Follow the System Map instructions in `skills/icm-architect/references/system-map.md`:
-1. **Discover Contracts and Cards**:
-   - Locate all `CONTEXT.md` files (stage contracts) and `objects/*.md` cards in the target directory.
-2. **Extract Relationships**:
-   - For pipelines: parse Inputs (Working vs. Reference) and Outputs from stage `CONTEXT.md` files to determine `consumes` and `produces` relationships.
-   - For system maps: parse `Hits` and `Does not hit` from the object cards to determine impact relationships.
-3. **Generate Mermaid Graph**:
-   - Build a `graph TD` or `flowchart LR` Mermaid.js diagram.
-   - Represent stages or objects as nodes.
-   - Represent data flow or impact as directed edges.
-   - Differentiate Factory/Reference inputs from Working inputs visually (e.g., using dashed lines or different node shapes).
-4. **Output**:
-   - Write the Mermaid graph to a `visual-map.md` file (or another appropriate output file in the workspace).
-   - Do not hallucinate relationships; only map what is explicitly cited in the contracts and cards.
+1. **Find the tools.** If the workspace has no `_tools/links.py` or `_tools/viz.py`, offer to copy them from `scripts/`; they are standard-library Python 3.
+2. **Write the graph.** `python -I _tools/links.py --graph _tools/graph.jsonl`. It also lists every link that does not resolve; report those.
+3. **Draw it.** `python -I _tools/viz.py _tools/graph.jsonl -o viz.html`. Name several graph files to draw several workspaces together. The page loads its libraries from a CDN, so viewing it needs the internet.
+4. **No Python?** This fallback is this plugin's addition, not part of the method: write a Mermaid `flowchart LR` to `visual-map.md` instead: stages or cards as nodes, inputs, `consumes:` / `produces:` and **Hits** as edges, reference inputs dashed. Draw only links that are written in the files; never infer one.
 '''

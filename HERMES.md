@@ -1,41 +1,24 @@
 # icm-architect
 
-Design any process, idea, problem, or body of knowledge into an ICM (Interpretable Context Methodology) workspace — folder structure as agent architecture — or restructure an existing folder, repo, or vault into one.
+Via Del Web plugin for Hermes Agent. It designs a process, idea or body of knowledge into an ICM (Interpretable Context Methodology) workspace, where folder structure is the agent architecture, or restructures an existing folder, repo or vault into one.
 
-Via Del Web domain extension for Hermes Agent. Hermes Agent discovers skills, plugins, and commands from this extension. When a task matches an ICM design or restructuring request, read `skills/icm-architect/SKILL.md` (and associated references) for full instructions before acting.
+When a task is designing, restructuring, syncing, mapping or walking an ICM workspace, load the skill (`skill_view(name='icm-architect')`, or read `skills/icm-architect/SKILL.md`) before acting. It routes to everything else.
 
 ## Commands
-- **/icm**: Design or restructure a workspace using Interpretable Context Methodology (ICM).
 
-## Skills
-- **icm-architect**: Design any process, idea, problem, or body of knowledge into an ICM (Interpretable Context Methodology) workspace — folder structure as agent architecture — or restructure an existing folder, repo, or vault into one. Use when the user wants to (1) turn a recurring workflow into an agent-runnable folder pipeline, (2) organize scattered notes, files, or knowledge into a library one AI agent can walk, (3) map a team or company as connected context, (4) audit a codebase or mixed folder into a walkable edit map, (5) audit or restructure an existing workspace to ICM conventions, or (6) says "make this an ICM", "ICM this", "map this repo", "audit this folder", or "structure this for agents".
+`/icm` picks the mode. Narrower: `/icm-pipeline`, `/icm-bundle`, `/icm-map`, `/icm-audit`, `/icm-audit-ghosts`, `/icm-sync`, `/icm-walk`, `/icm-graph`.
 
-## Method Summary
+## The method in brief
 
-Interpretable Context Methodology replaces complex orchestration code with directory structure:
-- **Numbered folders** carry sequencing (`01_`, `02_`, ...).
-- **Folder hierarchy** carries context scoping.
-- **Plain markdown files** carry state.
-- **Small, stable routing files** (`HERMES.md`, `CLAUDE.md`, `AGENTS.md`, `GEMINI.md`, `CONTEXT.md`) keep token overhead minimal (2,000–8,000 tokens per step).
+- Numbered folders carry sequence, hierarchy carries context scope, plain markdown carries state.
+- Three primitives: a **sequence** (numbered steps), a **shelf** (same-shaped files from one template), a **catalog** (a small file that points down).
+- Five forms built from them: Pipeline, Record library, Knowledge bundle, Context map, System map.
+- Every step ends at a check. A workspace enters through `AGENTS.md`; any other entry file is a one-line pointer to it.
+- One step loads its contract, references and inputs only: under about 8,000 tokens.
 
-### Six Core Forms
-1. **Pipeline**: Production line for recurring deliverables.
-2. **Umbrella**: Portfolio of distinct pipelines sharing brand/voice/rules.
-3. **Record library**: Accumulating records (clients, sessions, dossiers).
-4. **Knowledge bundle**: Navigable brain or wiki.
-5. **Context map**: Organizational map of teams, processes, data.
-6. **System map**: Walkable edit map for codebases (nouns, movements, change impact).
+## Hermes tools for ICM work
 
-### Hermes Agent Native Tool Mapping
-When executing ICM operations, Hermes Agent uses native tools:
-- **Navigation & Inspection**: `search_files(pattern=...)`, `read_file(path=...)`
-- **File & Contract Creation**: `write_file(path=..., content=...)`
-- **In-place Edits & Migrations**: `patch(path=..., ...)`
-- **Script & Index Automation**: `terminal(command=...)`
-- **Skill Lookup & Management**: `skill_view(name='icm-architect')`, `skill_manage(...)`
-
-### Key References & Templates
-- `skills/icm-architect/references/core.md` — Five design principles, five-layer hierarchy, token discipline.
-- `skills/icm-architect/references/forms.md` — The six forms in depth with skeletons and failure modes.
-- `skills/icm-architect/references/system-map.md` — Audit pipeline for the System map form.
-- `skills/icm-architect/assets/templates/` — Copyable starters for `HERMES.md`, `CLAUDE.md`, `AGENTS.md`, `CONTEXT.md`, stage contracts, cards, and schemas.
+- Inspect: `search_files(pattern=...)`, `read_file(path=...)`
+- Create files and contracts: `write_file(path=..., content=...)`
+- Edit and migrate: `patch(path=..., ...)`
+- Run the skill's scripts (`links.py`, `viz.py`, `index.py`, `quotes.py`): `terminal(command=...)`

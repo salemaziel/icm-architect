@@ -1,20 +1,15 @@
-description = "Compile unstructured knowledge or expert interviews into a structured ICM Knowledge Bundle."
+description = "Build an ICM Knowledge bundle from a brain dump, interviews, or transcripts and research."
 prompt = '''
-Compile unstructured brain dumps or interviews into a structured ICM Knowledge Bundle.
+Build an ICM Knowledge bundle: a body of knowledge one agent can walk.
+
+Use the `icm-architect` skill; load it if it isn't loaded. Paths below are relative to the skill's folder, except paths in the workspace being worked on.
 
 Input: {{args}}
 
-Follow the Knowledge Bundle form guidelines (as referenced in `skills/icm-architect/references/forms.md`):
-1. **Interview and Extraction**:
-   - Analyze the raw input notes, transcript, or brain dump provided in the arguments.
-   - Separate the "Factory" (the author's voice, underlying principles, invariant beliefs, and constraints) from the "Product" (specific topical opinions, stories, or essays).
-2. **Scaffold Directory Structure**:
-   - Create a `_shared/` directory for the Factory (e.g., `_shared/voice.md`, `_shared/principles.md`).
-   - Create topic-specific directories for the Product (the specific knowledge payloads).
-   - Create a root catalog (`CLAUDE.md`, `AGENTS.md`) and a routing `CONTEXT.md`.
-3. **Write the Content**:
-   - Draft the Factory files to clearly instruct future agents on *how* this expert thinks and communicates.
-   - Draft the Product files to capture *what* the expert knows about specific topics.
-4. **Walk Test**:
-   - Ensure a cold agent can read the root catalog and successfully locate both the expert's principles and their specific knowledge on a given topic without breaking the 8k token limit.
+Follow Build mode in `SKILL.md` and the Knowledge bundle form in `references/forms.md`:
+1. **Pick the variant.** If the material is transcripts, interviews, research or documents whose wording the bundle must keep (for a lecture, course, scripts or docs), also read `references/bundle-from-sources.md` and follow its pipeline where it replaces the Build steps. Otherwise build the plain bundle.
+2. **Split factory from product.** How the person thinks and speaks (voice, principles, constraints) is the always-load layer; what they know about specific topics goes on shelves of linked notes, loaded by task.
+3. **Scaffold from the templates.** `AGENTS.md` from `assets/templates/entry.md` plus the pointer files the owner's agents need, and a root `CONTEXT.md`. For the sources variant: `bundle-schema.md` to `_meta/schema.md`, `keep-out.txt` to `_meta/keep-out.txt`, the cards you need (`concept.md`, `source.md`, `plan.md`, `claim.md`) to `_templates/`, and `scripts/quotes.py`, `scripts/links.py` and `scripts/index.py` to `_tools/`.
+4. **Write the notes.** Typed frontmatter, relative links, one idea per note. Never tidy or invent a quote: a quoted line must appear word for word in its source.
+5. **Run the walk test.** A cold agent finds the person's principles, and their knowledge on a given topic, from `AGENTS.md` within a few reads and under about 8,000 tokens. For the sources variant, `python -I _tools/quotes.py` and `python -I _tools/links.py` pass.
 '''

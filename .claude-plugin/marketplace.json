@@ -4,7 +4,7 @@
   "description": "Interpretable Context Methodology (ICM) workspace designer — folder structure as agent architecture.",
   "owner": {
     "name": "Via Del Web",
-    "email": "claude@viadelweb.cloud"
+    "email": "51006863+salemaziel@users.noreply.github.com"
   },
   "plugins": [
     {
@@ -12,7 +12,7 @@
       "description": "Design any process, idea, problem, or body of knowledge into an ICM workspace, or audit and restructure an existing repository.",
       "source": "./",
       "category": "productivity",
-      "version": "0.1.0"
+      "version": "0.2.0"
     }
   ]
 }

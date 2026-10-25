@@ -1,28 +1,17 @@
 ---
 name: icm-pipeline
-description: Build a sequential, human-gated folder pipeline for recurring workflows.
+description: Build a numbered folder pipeline for a recurring workflow, with a check at the end of every stage.
 ---
 
-Build a sequential, human-gated folder pipeline using Interpretable Context Methodology (ICM).
+Build an ICM Pipeline: numbered stages, each ending at a check.
+
+Use the `icm-architect` skill; load it if it isn't loaded. Paths below are relative to the skill's folder, except paths in the workspace being worked on.
 
 Input: $ARGUMENTS
 
-Follow the Pipeline form instructions in `skills/icm-architect/SKILL.md` and `skills/icm-architect/references/forms.md`:
-1. **Dialogue Extraction**:
-   - What is the repeating unit of work (e.g., episode, report, release, client deliverable)?
-   - Walk through the sequence from input to final deliverable. Where does a human naturally stop to review or edit? (These become stage boundaries and human checks).
-   - What reference material is stable across every run (brand voice, style rules, schemas, templates) vs. per-run inputs? (Split factory from product).
-2. **Scaffold Directory Structure**:
-   - Numbered stage folders: `stages/01_<name>/`, `stages/02_<name>/`, etc.
-   - Each stage gets: `CONTEXT.md`, optional `references/`, and `output/`.
-   - Factory folder: `_shared/` for voice, rules, and definition of done.
-   - Setup folder: `setup/questionnaire.md` to configure the factory once.
-3. **Write Stage Contracts**:
-   - Use `skills/icm-architect/assets/templates/stage-CONTEXT.md`.
-   - Explicit inputs: split into Working (`../<prev_stage>/output/<file>`) and Reference (`../../_shared/<rule>.md`).
-   - Short numbered process steps.
-   - One concrete Human Check (what a person inspects before downstream stages proceed).
-4. **Write Root Routing**:
-   - Create root entry file (`CLAUDE.md`, `HERMES.md`, `AGENTS.md`, or `GEMINI.md`) and root `CONTEXT.md` routing table.
-5. **Run the Walk Test**:
-   - Validate navigation, link resolution, and 2k–8k token limits.
+Follow Build mode in `SKILL.md` and the Pipeline form in `references/forms.md`:
+1. **Extract the structure from dialogue.** Ask a few at a time: what is the repeating unit of work; walk through one run start to finish, and where does the person stop to check something; what stays the same every run and what is new each run; what artifact leaves the workspace when it is done.
+2. **Scaffold the smallest structure.** `stages/01_<name>/`, `stages/02_<name>/`, ... each with a `CONTEXT.md` and an `output/`; `_shared/` for the factory; `_templates/`; `_tools/` with `scripts/links.py` copied in; `setup/questionnaire.md` only if the factory needs configuring per user. No folders for stages that do not exist yet.
+3. **Write each stage contract** from `assets/templates/stage-CONTEXT.md`: exact input paths split into working (`../<previous stage folder>/output/<file>`) and reference (`../../_shared/<file>.md`), numbered process steps, outputs, and a `## Check` naming who or what checks. A check that is not a person writes `check.md` beside the output: `pass`, or `fail: <why>`.
+4. **Write the routing.** `AGENTS.md` from `assets/templates/entry.md`, a one-line pointer file for each agent the owner uses that reads another name (`references/core.md`, Naming), and root `CONTEXT.md` from `assets/templates/CONTEXT.md`.
+5. **Run the walk test**, including `python -I _tools/links.py`.

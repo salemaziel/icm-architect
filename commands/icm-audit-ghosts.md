@@ -1,23 +1,20 @@
 ---
 name: icm-audit-ghosts
-description: Audit an ICM System Map to detect ghosts (missing code) and leftovers (unmapped code).
+description: Audit an ICM System map against its tree: cards whose code is gone, stale universe marks, and code with no card.
 ---
 
-Audit a system map and codebase to detect ghosts, leftovers, and mapping gaps.
+Audit a System map against the tree it maps.
+
+Use the `icm-architect` skill; load it if it isn't loaded. Paths below are relative to the skill's folder, except paths in the workspace being worked on.
 
 Input: $ARGUMENTS
 
-Follow the System Map instructions in `skills/icm-architect/references/system-map.md` to enforce the three universes (live, leftover, ghost):
-1. **Inventory Cards vs. Code**:
-   - Read all object cards in `map/objects/*.md`.
-   - Extract the citations (`path:line`) from the "Shape" or "See" sections.
-   - Scan the corresponding target tree (codebase or vault).
-2. **Detect Ghosts**:
-   - Identify any object card that cites a file or code structure that no longer exists on disk.
-   - Flag these as "Ghosts". NEVER propose deleting the card, as this breaks inbound references. Instead, propose updating the card's universe to "ghost" and appending a tombstone notice explaining the removal.
-3. **Detect Leftovers and Gaps**:
-   - Identify files in the target tree (within mapped domains) that do not have corresponding object cards.
-   - Determine if these are "Leftovers" (still present but no longer the main path) or genuine gaps (new features that haven't been mapped).
-4. **Generate Cleanup Report**:
-   - Output a clear report grouping findings into "Ghosts Found" and "Unmapped Code / Leftovers Found".
-   - Provide concrete recommendations. If a ghost and a gap indicate a file was moved, enforce the "rename and leave a tombstone" rule. (e.g., ghost card X, map file Y, leave tombstone for Z).
+Use the universes in `references/system-map.md`: live (in force), leftover (still present, no longer the main path), ghost (named or filed, not wired). The map never moves or writes the subject's files.
+1. **Read the cards.** Every card under `map/objects/` and `map/processes/`; collect each `path:line` citation and each `universe:`.
+2. **Ghosts.** A card whose cited file, type or function is gone or no longer wired. Never delete the card, since other cards link to it: propose `universe: ghost` and a note on the card saying what is gone, as of which commit.
+3. **Universe drift.** A card marked live whose code is no longer the main path (propose leftover), or marked leftover or ghost whose code is in force again (propose live).
+4. **Unmapped code.** Types, modules or files in the mapped clusters that have no card.
+5. **Moves.** When a ghost and an unmapped file are the same thing moved, propose updating the card's citations instead of a new card.
+6. **Run `python -I map/_tools/links.py`** if the map has it, and report any link that no longer resolves.
+
+Report under "Ghosts", "Universe drift" and "Unmapped code", with a recommendation for each. Change nothing until the owner approves the report.
