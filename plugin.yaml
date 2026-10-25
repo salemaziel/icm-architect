@@ -1,6 +1,6 @@
 name: icm-architect
 version: "0.2.0"
-description: "Design any process, idea, problem, or body of knowledge into an ICM workspace or audit a repository with ICM."
+description: "Design a process, idea or body of knowledge into an ICM (Interpretable Context Methodology) workspace, where folder structure is the agent architecture; restructure an existing folder, repo or vault into one; or sync an ICM's catalogs after its folders change."
 author: "Via Del Web (salemaziel), Hermes Agent"
 license: "MIT"
 homepage: "https://github.com/salemaziel/icm-architect"

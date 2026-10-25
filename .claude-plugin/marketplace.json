@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "icm-architect",
-      "description": "Design any process, idea, problem, or body of knowledge into an ICM workspace, or audit and restructure an existing repository.",
+      "description": "Design a process, idea or body of knowledge into an ICM (Interpretable Context Methodology) workspace, where folder structure is the agent architecture; restructure an existing folder, repo or vault into one; or sync an ICM's catalogs after its folders change.",
       "source": "./",
       "category": "productivity",
       "version": "0.2.0"

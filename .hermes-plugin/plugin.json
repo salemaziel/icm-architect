@@ -1,7 +1,7 @@
 {
   "name": "icm-architect",
   "version": "0.2.0",
-  "description": "Design any process, idea, problem, or body of knowledge into an ICM (Interpretable Context Methodology) workspace — folder structure as agent architecture — or restructure an existing folder, repo, or vault into one.",
+  "description": "Design a process, idea or body of knowledge into an ICM (Interpretable Context Methodology) workspace, where folder structure is the agent architecture; restructure an existing folder, repo or vault into one; or sync an ICM's catalogs after its folders change.",
   "author": {
     "name": "Via Del Web",
     "url": "https://github.com/salemaziel"
@@ -22,7 +22,7 @@
   "interface": {
     "displayName": "ICM Architect",
     "shortDescription": "Interpretable Context Methodology workspace designer",
-    "longDescription": "Design any process, idea, problem, or body of knowledge into an ICM workspace where folder structure acts as agent architecture, or audit and restructure existing repositories.",
+    "longDescription": "Design a process, idea or body of knowledge into an ICM (Interpretable Context Methodology) workspace, where folder structure is the agent architecture; restructure an existing folder, repo or vault into one; or sync an ICM's catalogs after its folders change.",
     "developerName": "Via Del Web",
     "category": "Productivity",
     "capabilities": [
@@ -32,6 +32,7 @@
     "defaultPrompt": [
       "Design an ICM workspace for this workflow.",
       "Audit and restructure this repository using ICM conventions.",
+      "Synchronize and reconcile the ICM workspace catalog.",
       "Create a system map for this codebase."
     ]
   }
