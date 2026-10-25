@@ -1,0 +1,22 @@
+---
+name: icm-bundle
+description: Compile unstructured knowledge or expert interviews into a structured ICM Knowledge Bundle.
+---
+
+Compile unstructured brain dumps or interviews into a structured ICM Knowledge Bundle.
+
+Input: $ARGUMENTS
+
+Follow the Knowledge Bundle form guidelines (as referenced in `skills/icm-architect/references/forms.md`):
+1. **Interview and Extraction**:
+   - Analyze the raw input notes, transcript, or brain dump provided in the arguments.
+   - Separate the "Factory" (the author's voice, underlying principles, invariant beliefs, and constraints) from the "Product" (specific topical opinions, stories, or essays).
+2. **Scaffold Directory Structure**:
+   - Create a `_shared/` directory for the Factory (e.g., `_shared/voice.md`, `_shared/principles.md`).
+   - Create topic-specific directories for the Product (the specific knowledge payloads).
+   - Create a root catalog (`CLAUDE.md`, `AGENTS.md`) and a routing `CONTEXT.md`.
+3. **Write the Content**:
+   - Draft the Factory files to clearly instruct future agents on *how* this expert thinks and communicates.
+   - Draft the Product files to capture *what* the expert knows about specific topics.
+4. **Walk Test**:
+   - Ensure a cold agent can read the root catalog and successfully locate both the expert's principles and their specific knowledge on a given topic without breaking the 8k token limit.

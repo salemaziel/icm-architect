@@ -30,4 +30,4 @@ Interpretable Context Methodology replaces complex orchestration code with direc
 - `skills/icm-architect/references/core.md` — Five design principles, five-layer hierarchy, token discipline.
 - `skills/icm-architect/references/forms.md` — The six forms in depth with skeletons and failure modes.
 - `skills/icm-architect/references/system-map.md` — Audit pipeline for the System map form.
-- `skills/icm-architect/assets/templates/` — Copyable starters for `CLAUDE.md`, `CONTEXT.md`, stage contracts, cards, and schemas.
+- `skills/icm-architect/assets/templates/` — Copyable starters for `HERMES.md`, `CLAUDE.md`, `AGENTS.md`, `CONTEXT.md`, stage contracts, cards, and schemas.

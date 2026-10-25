@@ -1,0 +1,21 @@
+description = "Audit an ICM System Map to detect ghosts (missing code) and leftovers (unmapped code)."
+prompt = '''
+Audit a system map and codebase to detect ghosts, leftovers, and mapping gaps.
+
+Input: {{args}}
+
+Follow the System Map instructions in `skills/icm-architect/references/system-map.md` to enforce the three universes (live, leftover, ghost):
+1. **Inventory Cards vs. Code**:
+   - Read all object cards in `map/objects/*.md`.
+   - Extract the citations (`path:line`) from the "Shape" or "See" sections.
+   - Scan the corresponding target tree (codebase or vault).
+2. **Detect Ghosts**:
+   - Identify any object card that cites a file or code structure that no longer exists on disk.
+   - Flag these as "Ghosts". NEVER propose deleting the card, as this breaks inbound references. Instead, propose updating the card's universe to "ghost" and appending a tombstone notice explaining the removal.
+3. **Detect Leftovers and Gaps**:
+   - Identify files in the target tree (within mapped domains) that do not have corresponding object cards.
+   - Determine if these are "Leftovers" (still present but no longer the main path) or genuine gaps (new features that haven't been mapped).
+4. **Generate Cleanup Report**:
+   - Output a clear report grouping findings into "Ghosts Found" and "Unmapped Code / Leftovers Found".
+   - Provide concrete recommendations. If a ghost and a gap indicate a file was moved, enforce the "rename and leave a tombstone" rule. (e.g., ghost card X, map file Y, leave tombstone for Z).
+'''

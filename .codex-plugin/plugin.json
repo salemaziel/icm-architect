@@ -31,6 +31,7 @@
     "defaultPrompt": [
       "Design an ICM workspace for this workflow.",
       "Audit and restructure this repository using ICM conventions.",
+      "Synchronize and reconcile the ICM workspace catalog.",
       "Create a system map for this codebase."
     ]
   }

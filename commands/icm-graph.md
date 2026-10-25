@@ -1,0 +1,23 @@
+---
+name: icm-graph
+description: Generate a Mermaid.js visual graph of the workspace pipeline or system map.
+---
+
+Crawl the workspace contracts and object cards to generate a Mermaid.js visual graph.
+
+Input: $ARGUMENTS
+
+Follow the System Map instructions in `skills/icm-architect/references/system-map.md`:
+1. **Discover Contracts and Cards**:
+   - Locate all `CONTEXT.md` files (stage contracts) and `objects/*.md` cards in the target directory.
+2. **Extract Relationships**:
+   - For pipelines: parse Inputs (Working vs. Reference) and Outputs from stage `CONTEXT.md` files to determine `consumes` and `produces` relationships.
+   - For system maps: parse `Hits` and `Does not hit` from the object cards to determine impact relationships.
+3. **Generate Mermaid Graph**:
+   - Build a `graph TD` or `flowchart LR` Mermaid.js diagram.
+   - Represent stages or objects as nodes.
+   - Represent data flow or impact as directed edges.
+   - Differentiate Factory/Reference inputs from Working inputs visually (e.g., using dashed lines or different node shapes).
+4. **Output**:
+   - Write the Mermaid graph to a `visual-map.md` file (or another appropriate output file in the workspace).
+   - Do not hallucinate relationships; only map what is explicitly cited in the contracts and cards.

@@ -1,0 +1,15 @@
+name: icm-architect
+version: "0.1.0"
+description: "Design any process, idea, problem, or body of knowledge into an ICM workspace or audit a repository with ICM."
+author: "Via Del Web (salemaziel), Hermes Agent"
+license: "MIT"
+homepage: "https://github.com/salemaziel/icm-architect"
+repository: "https://github.com/salemaziel/icm-architect"
+platforms: [linux, macos, windows]
+metadata:
+  hermes:
+    tags: [icm, architecture, workspace-design, context-engineering, system-map]
+    category: productivity
+    related_skills: [plan, requesting-code-review]
+skills:
+  - skills/icm-architect

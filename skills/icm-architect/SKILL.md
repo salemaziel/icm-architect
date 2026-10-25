@@ -1,6 +1,15 @@
 ---
 name: icm-architect
-description: Design any process, idea, problem, or body of knowledge into an ICM (Interpretable Context Methodology) workspace — folder structure as agent architecture — or restructure an existing folder, repo, or vault into one. Use when the user wants to (1) turn a recurring workflow into an agent-runnable folder pipeline, (2) organize scattered notes, files, or knowledge into a library one AI agent can walk, (3) map a team or company as connected context ("context map", "second brain", "team brain", "knowledge base for AI"), (4) audit a codebase or mixed folder into a walkable edit map (objects, processes, change-impact) so later agents can change it without slurping the tree, (5) audit or restructure an existing workspace to ICM conventions, or (6) says "make this an ICM", "ICM this", "map this repo", "audit this folder", "what would a change hit", "build me a workspace", or "structure this for agents".
+description: "Design an ICM workspace or audit a repository with ICM."
+version: 0.1.0
+author: Via Del Web (salemaziel), Hermes Agent
+license: MIT
+platforms: [linux, macos, windows]
+metadata:
+  hermes:
+    tags: [icm, architecture, workspace-design, context-engineering, system-map]
+    category: productivity
+    related_skills: [plan, requesting-code-review]
 ---
 
 # ICM Architect
@@ -11,12 +20,33 @@ Think of the workspace as a library. The routing files are the catalog: small, s
 
 Method: Interpretable Context Methodology (Van Clief & McDermott, arXiv:2603.16021, MIT-licensed).
 
-## The invariants
+## When to Use
+
+- Turn a recurring workflow into an agent-runnable folder pipeline (`/icm-pipeline`).
+- Organize scattered notes, files, or knowledge into a library one AI agent can walk (`/icm`).
+- Map a codebase or mixed folder into a walkable edit map with change-impact index (`/icm-map`).
+- Audit or restructure an existing workspace with reference integrity checks (`/icm-audit`).
+- Reconcile catalog routing tables with disk layout to eliminate drift (`/icm-sync`).
+- Execute a cold-agent navigation and token audit on an ICM workspace (`/icm-walk`).
+- The user says "make this an ICM", "ICM this", "map this repo", "audit this folder", "what would a change hit", "build me a workspace", or "structure this for agents".
+
+### Slash Commands
+
+| Command | Mode / Form | Primary Job |
+|---|---|---|
+| `/icm` | Master Router | Interactive guided assistant across all 6 forms and modes |
+| `/icm-pipeline` | Build / Pipeline | Turn a recurring workflow into a staged folder pipeline with human checks |
+| `/icm-map` | System Map | Map a codebase (nouns, movements, change-impact) or query `what hits X` |
+| `/icm-audit` | Restructure | Audit brownfield folders, check reference integrity, propose migration |
+| `/icm-sync` | Sync Mode | Reconcile catalog tables with disk layout to eliminate drift |
+| `/icm-walk` | Walk Test | Cold-agent audit of navigation, contracts, and 2k–8k token limits |
+
+## The Invariants
 
 Every ICM, whatever its form, obeys these. When building or restructuring, enforce all ten:
 
 1. **One folder, one job.** Each folder does a single step or holds a single kind of thing, and states its own purpose in a file inside itself. The structure is the documentation.
-2. **A small, stable entry file.** `CLAUDE.md` (or `AGENTS.md`) at the root answers "where am I, where does everything live, where do I go for task X" — and nothing else. Target under ~60 lines. It routes; it never holds content.
+2. **A small, stable entry file.** `HERMES.md`, `CLAUDE.md`, `AGENTS.md`, or `GEMINI.md` at the root answers "where am I, where does everything live, where do I go for task X" — and nothing else. Target under ~60 lines. It routes; it never holds content.
 3. **Numbering encodes order.** `01_`, `02_`, … where sequence matters. Renaming folders reorders the pipeline — that is the point.
 4. **Every folder-level contract is explicit.** A `CONTEXT.md` per working folder: what it reads (inputs), what it does (process), what it writes (outputs), what a human checks. See [assets/templates/stage-CONTEXT.md](assets/templates/stage-CONTEXT.md).
 5. **Factory vs. product.** Reference material (rules, voice, schemas, templates — stable across runs) lives structurally apart from working artifacts (outputs, drafts — new every run). Configure the factory once; the product is what each run emits.
@@ -26,13 +56,14 @@ Every ICM, whatever its form, obeys these. When building or restructuring, enfor
 9. **The filesystem is the state machine.** "Status" is derivable by scanning what exists in output folders. Generated indexes (file maps, logs) are rebuilt by script, never hand-edited.
 10. **Instantiate by copying.** New unit of work = copy a template folder, not a blank page. Keep templates in a `_templates/` or `_system/` folder.
 
-## Choose a mode
+## Choose a Mode
 
 - **Building from a described process, idea, or problem** → Build mode.
 - **An existing folder, repo, or vault that needs ICM structure** → Restructure mode.
+- **An existing ICM workspace where folders were added, moved, or renumbered** → Sync mode.
 - **A body of work later agents must edit** (code, markdown, or mixed) → System map form. Read [references/system-map.md](references/system-map.md) after picking the form.
 
-## Build mode
+## Build Mode
 
 **1. Extract the structure from dialogue.** The structure is already in how the person describes the work — don't impose a shape, surface theirs. Ask (a few at a time, not all at once):
 
@@ -59,30 +90,46 @@ Real workspaces mix forms (a record library whose records are mini knowledge bun
 
 **3. Scaffold the smallest structure that carries the work.** Copy starters from [assets/templates/](assets/templates/) and fill them in. Do not create folders for stages that don't exist yet, empty "misc" buckets, or speculative depth. Three real stages beat seven imagined ones. If the whole job fits in one saved prompt, say so and don't build a workspace at all.
 
-**4. Write the contracts.** Root `CLAUDE.md` (identity + routing table), root `CONTEXT.md` (the pipeline or schema definition), one `CONTEXT.md` per stage/hub folder, `setup/questionnaire.md` if the factory needs configuring per user. Write inputs as explicit file paths, split into working (this run) and reference (every run).
+**4. Write the contracts.** Root `HERMES.md` / `CLAUDE.md` / `AGENTS.md` (identity + routing table), root `CONTEXT.md` (the pipeline or schema definition), one `CONTEXT.md` per stage/hub folder, `setup/questionnaire.md` if the factory needs configuring per user. Write inputs as explicit file paths, split into working (this run) and reference (every run).
 
 **5. Validate with the walk test** (below).
 
-## Restructure mode
+## Restructure Mode
 
-**1. Inventory before touching.** List the tree. For each area note: what it is, when last touched, what refers to it. Never delete or move in this pass.
+**1. Inventory before touching.** List the tree using `search_files` / file tools. For each area note: what it is, when last touched, what refers to it. Never delete or move in this pass.
 
 **2. Find the hidden form.** Ask the owner (or infer and confirm): what is the repeating unit here? Where does work enter and leave? The mess usually contains a real pipeline, library, or map that grew without a skeleton — extract it, don't replace it. Interview the folder the way you'd interview the person.
 
 **3. Classify every file** into one of five roles:
-- **Catalog** — identity/routing (becomes or feeds `CLAUDE.md` / index files)
+- **Catalog** — identity/routing (becomes or feeds `HERMES.md` / `CLAUDE.md` / `AGENTS.md` / index files)
 - **Contract** — describes how a step works (becomes a `CONTEXT.md`)
 - **Factory** — stable reference (→ `_shared/`, `_system/`, or `references/`)
 - **Product** — run-specific artifacts (→ stage `output/` or record folders)
-- **Dead** — stale, duplicated, or superseded (→ propose `_archive/`, never silently delete)
+- **Dead** — stale, duplicated, or superseded (→ propose `_archive/`, never silently delete). A file is Dead only after step 4 confirms nothing depends on it — apparent disuse is not proof.
 
-**4. Propose before moving.** Present the target tree and a migration map (old path → new path → role). Get approval. This is a human gate in a method built on human gates — honor it.
+**4. Verify reference integrity — before proposing.** Apparent disuse is not proof of safety. Before any file is proposed for a move — especially a `Dead → _archive/` move — enumerate what points at it: in-vault, sibling-path (`../`), symlink, and outside this workspace (other repos, configs, scheduled jobs that hardcode a path in). External consumers are a question for the human gate, not an unbounded grep. A file with a live referrer is held, or moved only if every referrer is updated in the same change. See [references/reference-integrity.md](references/reference-integrity.md).
 
-**5. Migrate.** Move files, write the entry file and contracts, de-duplicate toward one-home-per-fact (leave a link where the copy lived if anything might reference it). Separate method from instance: if the structure will be reused elsewhere, the blank template lives apart from this filled-in deployment.
+**5. Propose before moving.** Present the target tree and a migration map (old path → new path → role → referrers found). Get approval. This is a human gate in a method built on human gates — honor it. The reviewer approves against the reference report from step 4, not against a hunch.
 
-**6. Validate with the walk test.**
+**6. Migrate — copy, verify, then remove.** Never move-and-hope. Before any copy or rename, check whether the destination already exists **case-folded** — on Windows and macOS, `CLAUDE.md` → `CONTEXT.md` silently overwrites an existing `context.md`, and a file-inventory map will not show the collision. Surface every hit at the approval gate. Then copy to the new home, verify parity (file count and content hash) against the source, and only then remove the original. Write the entry file and contracts using `write_file` / `patch`, de-duplicate toward one-home-per-fact (leave a link where the copy lived if anything referenced it). Separate method from instance: if the structure will be reused elsewhere, the blank template lives apart from this filled-in deployment.
 
-## The walk test
+**7. Validate with the walk test.**
+
+## Sync Mode (Drift Prevention)
+
+Reconcile routing tables with the filesystem when stages are added, removed, or renumbered:
+
+**1. Scan catalog vs. disk.** Read the entry file (`HERMES.md` / `CLAUDE.md` / `AGENTS.md` / `GEMINI.md`) and root `CONTEXT.md`. Inventory all actual stage directories (`stages/*` or `NN_*`), record libraries, and shared folders.
+**2. Identify discrepancies:**
+- **Uncataloged stages:** Directories present on disk but absent from routing tables.
+- **Dead catalog pointers:** Routing rows pointing to folders that were deleted or renamed.
+- **Contract gaps:** Stage folders lacking an explicit `CONTEXT.md`.
+- **Pipeline progress:** Derive live completion state by checking artifacts in each stage's `output/`.
+**3. Reconcile tables.** Present the diff to the user. Update routing tables in entry files and root `CONTEXT.md` without modifying custom rules or identity text.
+**4. Scaffold missing contracts (optional).** Offer to scaffold missing stage `CONTEXT.md` files from `assets/templates/stage-CONTEXT.md`.
+**5. Validate.** Run the walk test to ensure routing links resolve and token budgets hold.
+
+## The Walk Test
 
 Validate any ICM — new or restructured — by walking it cold, as an agent with no memory:
 
@@ -91,8 +138,9 @@ Validate any ICM — new or restructured — by walking it cold, as an agent wit
 - Can you state pipeline status purely by scanning what exists in `output/` folders (or node frontmatter)?
 - Is any routing file carrying content payload? Move the payload to a shelf; leave a pointer.
 - Is any fact stored in two places? Pick one home; link from the other.
+- After a restructure: does every reference that existed *before* the move still resolve? A moved file that something still points at is a break, not a tidy-up.
 - Token check: entry file + one contract + its inputs should land in roughly 2k–8k tokens.
-- System map only: can a cold agent answer *what is X* and *what else moves if I change X* from `map/CLAUDE.md` plus one card? Extra checks are in [references/system-map.md](references/system-map.md).
+- System map only: can a cold agent answer *what is X* and *what else moves if I change X* from `map/HERMES.md`, `map/CLAUDE.md`, or `map/AGENTS.md` plus one card? Extra checks are in [references/system-map.md](references/system-map.md).
 
 If a step fails, fix the structure — not by explaining more, but by moving or splitting files until the walk works.
 
@@ -107,4 +155,5 @@ If a step fails, fix the structure — not by explaining more, but by moving or 
 - [references/core.md](references/core.md) — the five design principles, the five-layer context hierarchy, naming conventions, token discipline. Read when writing contracts or when a structural call is contested.
 - [references/forms.md](references/forms.md) — the six forms in depth: skeletons, moves, failure modes. Read at step 2 of Build mode or step 2 of Restructure mode.
 - [references/system-map.md](references/system-map.md) — audit pipeline for the System map form. Read when that form is chosen.
-- [assets/templates/](assets/templates/) — copyable starters: `CLAUDE.md`, workspace `CONTEXT.md`, `stage-CONTEXT.md`, `node.md`, `object.md`, `process.md`, `schema.md`, `questionnaire.md`.
+- [references/reference-integrity.md](references/reference-integrity.md) — the move-safety gate: what points at a file, case-folded destinations, copy-verify-remove. Read at step 4 of Restructure mode, or any time a move is contested.
+- [assets/templates/](assets/templates/) — copyable starters: `HERMES.md`, `CLAUDE.md`, `AGENTS.md`, workspace `CONTEXT.md`, `stage-CONTEXT.md`, `node.md`, `object.md`, `process.md`, `schema.md`, `questionnaire.md`.

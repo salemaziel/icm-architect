@@ -1,0 +1,38 @@
+---
+name: icm-audit
+description: Audit an existing folder/repo, check reference integrity, and generate an approved ICM restructuring plan.
+---
+
+Audit an existing directory and prepare a safe restructuring plan using Interpretable Context Methodology (ICM).
+
+Input: $ARGUMENTS
+
+Follow the Restructure Mode instructions in `skills/icm-architect/SKILL.md` and `skills/icm-architect/references/reference-integrity.md`:
+
+1. **Non-Destructive Inventory**:
+   - Scan the target tree using file listing tools.
+   - For each area note: purpose, last touch, and existing references.
+   - Do NOT move or delete any files in this phase.
+2. **Identify Hidden Form**:
+   - Determine the repeating unit and how work enters and exits.
+   - Choose the target form (Pipeline, Umbrella, Record library, Knowledge bundle, Context map, System map).
+3. **Classify Every File (5 Roles)**:
+   - **Catalog**: Routing/identity files (`HERMES.md`, `CLAUDE.md`, `AGENTS.md`, root `CONTEXT.md`).
+   - **Contract**: Step instructions and boundaries (`stage-CONTEXT.md`).
+   - **Factory**: Stable reference material, rules, schemas (`_shared/`, `references/`).
+   - **Product**: Run-specific deliverables (`output/`, record folders).
+   - **Dead**: Stale or superseded files (propose for `_archive/`). A file is Dead only after reference integrity confirms no dependencies.
+4. **Reference Integrity Safety Gate**:
+   - Audit in-vault references, sibling-path (`../`) links that regrouping would break, and symlinks.
+   - Check external consumers (configs, deploy scripts, cron, issue trackers) via the human gate.
+   - Check case-folded destination collisions (e.g., `CLAUDE.md` → `CONTEXT.md` on case-insensitive filesystems).
+5. **Propose Migration Map**:
+   - Present a clear table: `Old Path → New Path → Role → Referrers Found`.
+   - Wait for human approval before moving anything.
+6. **Execute Migration (Copy-Verify-Remove)**:
+   - Copy files to new destinations.
+   - Verify parity (file count and content hashes).
+   - Remove originals only after verification passes, leaving pointers where external references existed.
+   - Write missing contracts and entry routing files.
+7. **Run the Walk Test**:
+   - Verify cold-agent navigation and confirm all pre-existing references still resolve.
